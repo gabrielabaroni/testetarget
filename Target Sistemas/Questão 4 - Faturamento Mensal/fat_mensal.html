@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentual de Representação de Faturamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Percentual de Representação de Faturamento</h1>
+        <button onclick="calcularPercentuais()">Calcular Percentuais</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Faturamento (R$)</th>
+                    <th>Percentual (%)</th>
+                </tr>
+            </thead>
+            <tbody id="resultadoTabela">
+                <!-- Resultados serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function calcularPercentuais() {
+            // Dados de faturamento
+            const faturamentoPorEstado = {
+                'SP': 67836.43,
+                'RJ': 36678.66,
+                'MG': 29229.88,
+                'ES': 27165.48,
+                'Outros': 19849.53
+            };
+
+          
+            const totalFaturamento = Object.values(faturamentoPorEstado).reduce((total, valor) => total + valor, 0);
+
+          
+            const percentuais = Object.entries(faturamentoPorEstado).map(([estado, faturamento]) => {
+                return {
+                    estado: estado,
+                    faturamento: faturamento,
+                    percentual: (faturamento / totalFaturamento * 100).toFixed(2)
+                };
+            });
+
+      
+            const tabelaResultado = document.getElementById('resultadoTabela');
+            tabelaResultado.innerHTML = percentuais.map(({ estado, faturamento, percentual }) => `
+                <tr>
+                    <td>${estado}</td>
+                    <td>R$ ${faturamento.toFixed(2)}</td>
+                    <td>${percentual}%</td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

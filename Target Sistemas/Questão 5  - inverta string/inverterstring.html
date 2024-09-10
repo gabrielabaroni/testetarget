@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverter String</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input, button {
+            display: block;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inverter String</h1>
+        <input type="text" id="inputString" placeholder="Digite a string para inverter">
+        <button onclick="inverterString()">Inverter</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function inverterString() {
+
+            const input = document.getElementById('inputString').value;
+            
+
+            function inverter(s) {
+                let resultado = "";
+                for (let i = s.length - 1; i >= 0; i--) {
+                    resultado += s[i];
+                }
+                return resultado;
+            }
+
+
+            const stringInvertida = inverter(input);
+            document.getElementById('resultado').innerText = `String invertida: ${stringInvertida}`;
+        }
+    </script>
+</body>
+</html>

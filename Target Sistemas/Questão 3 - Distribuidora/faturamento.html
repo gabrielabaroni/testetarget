@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faturamento Diário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Relatório de Faturamento Diário</h1>
+        <button onclick="calcularFaturamento()">Calcular Faturamento</button>
+        <div id="resultados">
+            <p id="menorValor"></p>
+            <p id="maiorValor"></p>
+            <p id="diasAcimaMedia"></p>
+        </div>
+    </div>
+
+    <script>
+        async function carregarDados() {
+            const response = await fetch('faturamento.json');
+            if (!response.ok) {
+                throw new Error('Falha ao carregar o arquivo JSON.');
+            }
+            return response.json();
+        }
+
+        function calcularFaturamento() {
+            carregarDados().then(faturamentos => {
+                // Filtra dias com faturamento
+                const diasComFaturamento = faturamentos.filter(f => f.faturamento > 0);
+                
+                if (diasComFaturamento.length === 0) {
+                    document.getElementById('menorValor').innerText = 'Não há dados de faturamento.';
+                    document.getElementById('maiorValor').innerText = '';
+                    document.getElementById('diasAcimaMedia').innerText = '';
+                    return;
+                }
+                
+                const valores = diasComFaturamento.map(f => f.faturamento);
+                
+                const menorValor = Math.min(...valores);
+                const maiorValor = Math.max(...valores);
+                const mediaMensal = valores.reduce((acc, curr) => acc + curr, 0) / valores.length;
+                const diasAcimaMedia = valores.filter(v => v > mediaMensal).length;
+                
+                document.getElementById('menorValor').innerText = `Menor valor de faturamento: R$ ${menorValor.toFixed(2)}`;
+                document.getElementById('maiorValor').innerText = `Maior valor de faturamento: R$ ${maiorValor.toFixed(2)}`;
+                document.getElementById('diasAcimaMedia').innerText = `Número de dias com faturamento acima da média: ${diasAcimaMedia}`;
+            }).catch(error => {
+                document.getElementById('resultados').innerText = `Erro: ${error.message}`;
+            });
+        }
+    </script>
+</body>
+</html>

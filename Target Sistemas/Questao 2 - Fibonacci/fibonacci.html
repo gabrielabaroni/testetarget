@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Número na Sequência de Fibonacci</title>
+    <script>
+        function isFibonacci(num) {
+            if (num < 0) return false;
+            
+            // Função para verificar se um número é um quadrado perfeito
+            function isPerfectSquare(x) {
+                let s = Math.floor(Math.sqrt(x));
+                return s * s === x;
+            }
+
+            // Um número é um número de Fibonacci se e somente se um (5*n^2 + 4) ou (5*n^2 - 4) é um quadrado perfeito
+            return isPerfectSquare(5 * num * num + 4) || isPerfectSquare(5 * num * num - 4);
+        }
+
+        function checkFibonacci() {
+            let input = document.getElementById("numberInput").value;
+            let number = parseInt(input);
+
+            if (isNaN(number)) {
+                document.getElementById("result").innerText = "Por favor, insira um número válido.";
+                return;
+            }
+
+            if (isFibonacci(number)) {
+                document.getElementById("result").innerText = `O número ${number} pertence à sequência de Fibonacci.`;
+            } else {
+                document.getElementById("result").innerText = `O número ${number} NÃO pertence à sequência de Fibonacci.`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Verificar Número na Sequência de Fibonacci</h1>
+    <p>Digite um número para verificar se ele pertence à sequência de Fibonacci:</p>
+    <input type="text" id="numberInput" placeholder="Digite um número">
+    <button onclick="checkFibonacci()">Verificar</button>
+    <p id="result"></p>
+</body>
+</html>
